@@ -1,4 +1,4 @@
-### IP-1 Group 5  
+### IP-2 Group 5  
 ## Project Title: Community-Web-APP  
 
 ## Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ID
