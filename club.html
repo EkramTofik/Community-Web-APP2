@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+    <link rel="stylesheet" href="css/club.css">
+</head>
+<body>
+    
+    <div class="sidebar">
+        <div>
+            <div class="logo">WelcomeHub</div>
+            <nav>
+                <ul>
+                    <li><span><img src="./images/home.png" width="18px" height="18px"></span><a href="homepage.html">Home</a></li>
+                    <li  class="active"> <span><img src="./images/group.png" width="20px" height="20px"></span>  <a href="club.html">Clubs</a></li>
+                    <li>  <span><img src="./images/promotion.png" width="20px" height="20px"></span>  <a href="announcement.html">Announcement</a></li>
+                    <li> <span><img src="./images/fabric.png" width="20px" height="20px"></span>  <a href="coursematerial.html" >Materials</a></li>
+                    <li>  <span><img src="./images/cart.png" width="20px" height="20px"></span>  <a href="ads.html">Ads</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="profile">
+            <img src="images/Avatar2.avif" alt="User">
+            <div>
+                <div class="name">Amanda</div>
+                <a href="profile.html">View profile</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="content">
+
+        <div class="header">
+            <div class="search-bar">
+              <input type="text" placeholder="Search..." />
+            </div>
+          </div>
+    <div class="container">
+        
+        <section class="job-listings">
+            
+            <h2>Clubs And Communities</h2>
+            <h4>Clubs</h4>
+            <div class="job-cards">
+                <div class="job-card">
+                    <img src="images/softEngineer.jpg" alt="Job Image">
+                    <h3>Software Engineer Club</h3>
+                    <a href="#">TechClub</a>
+                </div>
+                <div class="job-card">
+                    <img src="images/DesignerClub.jpg" alt="Job Image">
+                    <h3>Designer Club</h3>
+                    <a href="#">DesignPro</a>
+                </div>
+                <div class="job-card">
+                    <img src="images/1000_F_909701689_ocwC8QiIQIbm7Fz3jljRdXuBCb9p8qcV.jpg" alt="Job Image">
+                    <h3>Financial Club</h3>
+                    <a href="#">FinBankClub</a>
+                </div>
+                <div class="job-card">
+                    <img src="images/DesignerClub.jpg" alt="Job Image">
+                    <h3>Designer Club</h3>
+                    <a href="#">DesignPro</a>
+                </div>
+                <div class="job-card">
+                    <img src="images/softEngineer.jpg" alt="Job Image">
+                    <h3>Designer Club</h3>
+                    <a href="#">DesignPro</a>
+                </div>
+                <div class="job-card">
+                    <img src="images/1000_F_909701689_ocwC8QiIQIbm7Fz3jljRdXuBCb9p8qcV.jpg" alt="Job Image">
+                    <h3>Designer Club</h3>
+                    <a href="#">DesignPro</a>
+                </div>
+                <div class="job-card">
+                    <img src="images/software engineer club.avif" alt="Job Image">
+                    <h3>Designer Club</h3>
+                    <a href="#">DesignPro</a>
+                </div>
+            </div>
+
+        </section>
+
+
+    <footer>
+        <div class="container">
+            <div class="newsletter">
+                <input type="email" placeholder="Subscribe to our newsletter">
+                <button>Subscribe</button>
+            </div>
+
+            <div class="links">
+                <a href="homepage.html">Home</a>
+                <a href="club.html">Clubs</a>
+                <a href="announcement.html" >Announcement</a>
+                <a href="coursematerial.html" >Materials</a>
+                <a href="ads.html" >Ads</a>                
+            </div>
+        <p>&copy; 2024 Brand, Inc. - <a href="#">Privacy</a> - <a href="#">Terms</a> - <a href="#">Sitemap</a></p>
+        </div>
+    </footer>
+
+    </div>
+</body>
+</html>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Search functionality
+    const searchInput = document.querySelector(".search-bar input");
+    const jobCards = document.querySelectorAll(".job-card");
+
+    searchInput.addEventListener("input", () => {
+        const filter = searchInput.value.toLowerCase();
+        jobCards.forEach(card => {
+            const title = card.querySelector("h3").textContent.toLowerCase();
+            const link = card.querySelector("a").textContent.toLowerCase();
+            if (title.includes(filter) || link.includes(filter)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+
+    // Hover effect for job cards
+    jobCards.forEach(card => {
+        card.addEventListener("mouseover", () => {
+            card.style.transform = "scale(1.05)";
+            card.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+        });
+
+        card.addEventListener("mouseout", () => {
+            card.style.transform = "scale(1)";
+            card.style.boxShadow = "none";
+        });
+    });
+});
+
+</script>
+
+
