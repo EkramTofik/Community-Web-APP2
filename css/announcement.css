@@ -1,0 +1,572 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    
+    display: flex;
+}
+.mainsection{
+    width: 100%;
+    padding: 2rem;
+    margin-left: 300px;
+}
+
+header {
+    background-color: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 1rem;
+}
+
+header nav ul li a.active {
+    color: #6C63FF;
+    font-weight: bold;
+}
+
+.hero {
+    background-image: url("images/UpcomingEvents.jpg"); 
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px; 
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.hero .btn {
+    display: inline-block;
+    background-color: #6C63FF;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.hero .btn:hover {
+    background-color: #3a7ac9;
+}
+
+.events-calendar {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.events-calendar h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.calendar {
+    margin: 0 auto;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.calendar th, .calendar td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.calendar th {
+    background-color: #f4f4f4;
+}
+
+.event-details {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+footer {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+footer .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+footer .newsletter input {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+footer .newsletter button {
+    padding: 10px 20px;
+    background-color: #6C63FF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+footer .newsletter button:hover {
+    background-color: #3a7ac9;
+}
+
+footer .links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+footer .links div {
+    margin: 10px;
+}
+
+footer .links div h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+}
+
+footer .links div ul {
+    list-style: none;
+}
+
+footer .links div ul li {
+    margin: 5px 0;
+}
+
+footer .links div ul li a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+}
+
+footer .links div ul li a:hover {
+    color: #6C63FF;
+}
+
+a {
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1.2rem;
+    color: #4a4a4a;
+}
+
+a:hover {
+    color: #6C63FF;
+}
+
+.sidebar {
+    width: 300px;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    height: 100vh;
+}
+
+.sidebar .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 1px 10px;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar nav ul li:hover, .sidebar nav ul li.active {
+    background-color: #eef3ff;
+    color: #4a90e2;
+}
+
+.sidebar .profile {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.sidebar .profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.university-fair {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.university-fair img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.university-fair h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.university-fair p {
+    margin-bottom: 20px;
+    color: #555;
+}
+button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #6C63FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: fit-content;
+    font-size: 16px;
+}
+
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .slider-header {
+            text-align: center;
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            font-size: 1.5rem;
+        }
+
+        .event-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .event-details {
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .event-details h3 {
+            margin: 0 0 10px;
+            font-size: 1.8rem;
+        }
+
+        .event-details p {
+            margin: 0 0 10px;
+            color: #666;
+        }
+
+        .event-details .event-meta {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .event-details .event-meta span {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .event-details .event-meta span svg {
+            margin-right: 5px;
+        }
+
+        .event-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .event-actions button {
+            background: #8a5a3c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .event-actions button:hover {
+            background: #6b452d;
+        }
+
+        .event-actions a {
+            color: #8a5a3c;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .event-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .event-image {
+            flex-shrink: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .slider-nav button {
+            background: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .slider-nav button:hover {
+            background: #f0f0f0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .featured-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .featured-section h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .featured-section p {
+            color: #666;
+        }
+
+        .event-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .event-card img {
+            width: 150px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .event-details {
+            flex: 1;
+            padding: 15px;
+        }
+
+        .event-details h3 {
+            margin: 0 0 5px;
+            font-size: 1.5rem;
+        }
+
+        .event-details p {
+            color: #888;
+            margin: 0 0 10px;
+        }
+
+        .event-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .event-meta .date-time {
+            color: #555;
+        }
+
+        .event-meta button {
+            background: #6C63FF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .event-meta button:hover {
+            background: #6b452d;
+        }
+
+        .event-meta a {
+            color: #6C63FF;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .event-meta a:hover {
+            text-decoration: underline;
+        }
+
+
+
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 1rem;
+        }
+        
+        
+        footer p{
+            font-size: small;
+        }
+        footer .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-bottom: 0;
+            flex-direction: column;
+        }
+        
+        footer .newsletter {
+            display: flex;
+            align-items: center;
+        }
+        
+        footer input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        footer .links {
+            margin: 2rem 0 1rem 0 ;
+            display: flex;
+            gap: 40px;
+            flex-direction: row;
+        }
+        
+        footer .links div {
+            flex: 1;
+        }
+        
+        footer .links a {
+            display: block;
+            color: #6C63FF;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: medium;
+        }
+        footer button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #6C63FF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
