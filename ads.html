@@ -103,3 +103,60 @@
     </div>
 </body>
 </html>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Sidebar active link highlighting
+    const links = document.querySelectorAll(".sidebar nav ul li");
+    links.forEach(link => {
+        link.addEventListener("click", function () {
+            links.forEach(item => item.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // Ad hover effect
+    const jobCards = document.querySelectorAll(".job-card");
+    jobCards.forEach(card => {
+        card.addEventListener("mouseenter", function () {
+            this.style.transform = "scale(1.05)";
+            this.style.transition = "0.3s ease-in-out";
+        });
+        card.addEventListener("mouseleave", function () {
+            this.style.transform = "scale(1)";
+        });
+    });
+
+    // Join button animation
+    const joinBtn = document.querySelector(".community-section button");
+    if (joinBtn) {
+        joinBtn.addEventListener("click", function () {
+            this.textContent = "Joined!";
+            this.style.backgroundColor = "#4CAF50";
+            this.style.color = "#fff";
+            setTimeout(() => {
+                this.textContent = "Join Us Now";
+                this.style.backgroundColor = "";
+                this.style.color = "";
+            }, 2000);
+        });
+    }
+
+    // Newsletter validation
+    const newsletterInput = document.querySelector(".newsletter input");
+    const subscribeBtn = document.querySelector(".newsletter button");
+    
+    if (newsletterInput && subscribeBtn) {
+        subscribeBtn.addEventListener("click", function () {
+            if (newsletterInput.value.trim() === "") {
+                alert("Please enter a valid email!");
+            } else {
+                alert("Subscribed successfully!");
+                newsletterInput.value = "";
+            }
+        });
+    }
+});
+</script>
