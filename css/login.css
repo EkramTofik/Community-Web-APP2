@@ -1,0 +1,98 @@
+/* === Base Reset === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* === Body Styling === */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* === Container === */
+  .container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* === Header === */
+  .container h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
+  }
+  
+  /* === Form Elements === */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+  }
+  
+  form label {
+    font-weight: 500;
+    color: #444;
+  }
+  
+  form input[type="email"],
+  form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  form button {
+    background-color: #6C63FF;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #574fd6;
+  }
+  
+  /* === Error Message === */
+  .container p[style*="color: red"] {
+    margin-top: -15px;
+    margin-bottom: 15px;
+    color: #e74c3c !important;
+    font-size: 14px;
+  }
+  
+  /* === Register Prompt === */
+  .container p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .container a {
+    color: #6C63FF;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .container a:hover {
+    text-decoration: underline;
+  }
+  

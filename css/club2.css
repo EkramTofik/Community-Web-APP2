@@ -1,0 +1,131 @@
+/* Base styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Container and layout */
+.container {
+    max-width: 1200px;
+    margin-left: 320px;
+    padding: 40px 20px;
+}
+
+/* Header and search */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px 15px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #6C63FF;
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
+}
+
+/* Section titles */
+.job-listings h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.job-listings h4 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #555;
+}
+
+/* Club cards */
+.job-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.job-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+.job-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.job-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.job-card a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #6C63FF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.job-card a:hover {
+    text-decoration: underline;
+}
+
+/* Join button */
+.job-card form button {
+    background-color: #6C63FF;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.job-card form button:hover {
+    background-color: #584de0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+
+    .job-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}

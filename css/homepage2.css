@@ -1,0 +1,143 @@
+/* General container */
+.container {
+    padding: 40px;
+    margin-left: 280px; /* space for sidebar */
+    background-color: #f9f9f9;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(to right, #6C63FF, #8673FF);
+    color: white;
+    padding: 60px 40px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.hero button {
+    padding: 12px 24px;
+    margin: 10px;
+    background-color: white;
+    color: #6C63FF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.hero button:hover {
+    background-color: #ecebff;
+}
+
+.hero button a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* University Fair Section */
+.university-fair {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.university-fair img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.university-fair h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.university-fair p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.university-fair button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #6C63FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.university-fair button:hover {
+    background-color: #574de2;
+}
+
+/* Upcoming Events */
+.upcoming-events {
+    margin-top: 20px;
+}
+
+.upcoming-events h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.event-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.event-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card h3 {
+    font-size: 1.2rem;
+    color: #6C63FF;
+    margin-bottom: 10px;
+}
+
+.event-card p {
+    color: #555;
+    margin: 5px 0;
+}
+
+.event-card a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #6C63FF;
+    text-decoration: none;
+    font-weight: bold;
+}
