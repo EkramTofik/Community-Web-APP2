@@ -133,7 +133,7 @@ mysqli_free_result($result);
             </div>
         </footer>
 
-        <?php if ($userRole == 'admin'): ?>
+        <?php if ($userRole == 'staff'): ?>
             <a href="add_ads.php" class="add-icon">+</a>
         <?php endif; ?>
     </div>

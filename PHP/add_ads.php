@@ -15,8 +15,8 @@ function getUserRole() {
 
 $userRole = getUserRole();
 
-// Redirect non-admin users
-if ($userRole != 'admin') {
+// Redirect non-staff users
+if ($userRole != 'staff') {
     header("Location: ads.php"); // Redirect to the ads page
     exit();
 }
