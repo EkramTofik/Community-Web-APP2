@@ -1,0 +1,131 @@
+/* Page layout */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #092e54;
+}
+
+/* Container to center card and allow scroll if needed */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Padding to prevent content from touching edges */
+  box-sizing: border-box;
+}
+
+/* Card container */
+.register-card {
+  background-color: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(112, 219, 246, 0.2);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Heading */
+.register-card h2 {
+  margin-bottom: 25px;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+/* Input fields and dropdown */
+.register-input,
+select {
+  display: block;
+  margin: 0 auto 18px auto;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.register-input:focus,
+select:focus {
+  border-color: #092e54;
+  outline: none;
+}
+
+/* Submit Button */
+.register-button {
+  background-image: linear-gradient(to right, #0d3866, #1e6091);
+  color: white;
+  padding: 11px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-image: linear-gradient(to right, #1e6091, #0d3866);
+}
+
+/* Link to Sign In */
+.login-text {
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+  word-wrap: break-word;
+  padding: 0 10px;
+  z-index: 10;
+  position: relative;
+}
+
+.login-text a {
+  color: #153c65;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.login-text a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 15px 20px;
+    border-radius: 10px;
+  }
+
+  .register-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .register-button {
+    font-size: 0.95rem;
+  }
+
+  .login-text {
+    font-size: 0.8rem;
+    margin-top: 12px;
+    padding: 0 10px;
+  }
+}

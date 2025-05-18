@@ -1,0 +1,166 @@
+/* Base Styles */
+form {
+  margin-top: 60px;
+  justify-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.login-card {
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 10px 14px 10px 14px rgba(112, 219, 246, 0.1);
+}
+
+.login-card h1 {
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
+}
+
+/* ===== Input Fields ===== */
+.login-input,
+input[type="email"] {
+  display: block;
+  width: 90%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.login-input:focus,
+input[type="email"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* ===== Sign In Button ===== */
+.login-button {
+  background-image: linear-gradient(to right, #0d3866, #1e6091);
+  color: white;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover {
+  background-image: linear-gradient(to right, #1e6091, #0d3866);
+}
+
+.forgot-password {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.forgot-password a {
+  color: #0d3866;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Sign Up Text ===== */
+.signup-text {
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: none;
+  background-image: linear-gradient(to right, #104993, #9ec7fc);
+  display: inline-block;
+  box-shadow: 0 0 10px rgba(8, 55, 67, 0.1);
+}
+
+.signup-text a {
+  color: #153c65;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-text:hover {
+  background-image: linear-gradient(to right, #9ec7fc, #104993);
+}
+
+body {
+  background-color: #092e54;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.success-message {
+  color: green;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* ===== Responsive Media Queries ===== */
+@media (max-width: 768px) {
+  .login-card {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  .login-card h1 {
+    font-size: 24px;
+  }
+
+  .login-button {
+    font-size: 15px;
+  }
+
+  .signup-text {
+    margin-top: 15px;
+    left: 0;
+    top: 0;
+    display: block;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    margin-top: 40px;
+    padding: 0 10px;
+  }
+
+  .login-card {
+    width: 100%;
+    padding: 20px 15px;
+    border-radius: 10px;
+  }
+
+  .login-card h1 {
+    font-size: 22px;
+  }
+
+  .login-input,
+  input[type="email"] {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .login-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .signup-text {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+}

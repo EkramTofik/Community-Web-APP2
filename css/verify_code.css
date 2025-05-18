@@ -1,0 +1,68 @@
+/* ===== Body Styling and Centering ===== */
+body {
+  background-color: #092e54;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Form Container ===== */
+.wrapper {
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 10px 14px 10px 14px rgba(112, 219, 246, 0.1);
+}
+
+/* ===== Heading ===== */
+.wrapper h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* ===== Input Field ===== */
+.wrapper input[type="text"] {
+  width: 90%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.wrapper input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* ===== Button Styling ===== */
+.wrapper button {
+  background-image: linear-gradient(to right, #0d3866, #1e6091);
+  color: white;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.wrapper button:hover {
+  background-image: linear-gradient(to right, #1e6091, #0d3866);
+}
+
+/* ===== Error Message Styling ===== */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+}

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'connection.php'; // ensure $conn is valid
+include_once "connection.php"; // ✔️ Same folder, simple include
 
 // Sanitize input function
 function filter($data) {
@@ -18,15 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signUp'])) {
 
     // Basic Validation
     if (empty($username) || empty($email) || empty($password) || empty($confirmPassword) || empty($role)) {
-        die("All required fields must be filled out.");
+        header("Location: register_form.php?msg=All+required+fields+must+be+filled+out.");
+        exit();
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Invalid email format.");
+        header("Location: register_form.php?msg=Invalid+email+format.");
+        exit();
     }
 
     if ($password !== $confirmPassword) {
-        die("Passwords do not match.");
+        header("Location: register_form.php?msg=Passwords+do+not+match.");
+        exit();
     }
 
     // Check if email already exists
@@ -36,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signUp'])) {
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "An account with this email already exists.";
+        header("Location: register_form.php?msg=An+account+with+this+email+already+exists.");
         $check->close();
         exit();
     }
@@ -50,29 +53,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signUp'])) {
     $stmt->bind_param("sssss", $username, $email, $hashedPassword, $role, $department);
 
     if ($stmt->execute()) {
-        // Set session and redirect by role
+        // Set session variables (optional)
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
 
-        // Redirect based on user role
-        switch ($role) {
-            case 'admin':
-                header("Location: admin_dashboard.php");
-                break;
-            case 'faculty':
-                header("Location: faculty_home.php");
-                break;
-            case 'student':
-            default:
-                header("Location: student_home.php");
-                break;
-        }
+        // Redirect all users to the login page after registration
+        header("Location: login_form.php?msg=Registration+successful,+please+log+in.");
         exit();
     } else {
-        echo "Error during registration. Please try again.";
+        header("Location: register_form.php?msg=Error+during+registration.+Please+try+again.");
     }
 
     $stmt->close();
     $conn->close();
 }
-?>
