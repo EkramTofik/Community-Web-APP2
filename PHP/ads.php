@@ -5,7 +5,7 @@ session_start();
 // Include database connection file
 include("connection.php"); // Make sure this file contains your database connection code
 
-// Function to get user role (replace with your actual user role retrieval logic)
+// Function to get user role
 function getUserRole() {
     if (isset($_SESSION['role'])) {
         return $_SESSION['role'];
@@ -16,7 +16,7 @@ function getUserRole() {
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login_form.php"); // Redirect to your login page
+    header("Location: login_form.php"); // Redirect to login page
     exit();
 }
 
@@ -24,7 +24,7 @@ if (!isset($_SESSION['user_id'])) {
 $userRole = getUserRole();
 
 // Fetch ads from the database
-$sql = "SELECT * FROM ads"; // Replace "ads" with your actual ads table name
+$sql = "SELECT * FROM ads"; 
 $result = mysqli_query($conn, $sql);
 $ads = mysqli_fetch_all($result, MYSQLI_ASSOC);
 

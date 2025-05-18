@@ -23,7 +23,7 @@ if ($userRole != 'staff') {
 
 // Initialize variables for form data and errors
 $title = $description = $image_url = "";
-$title_err = $description_err = $image_url_err = "";
+$title_err = $description_err = $image_err = "";
 $success = false;
 
 // Process form submission
@@ -42,19 +42,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $description = trim($_POST["description"]);
     }
 
-    // Validate image URL (basic validation)
-    if (!empty($_POST["image_url"])) {
-        $image_url = trim($_POST["image_url"]);
-        if (!filter_var($image_url, FILTER_VALIDATE_URL)) {
-            $image_url_err = "Invalid URL format";
+    // Validate image upload
+    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+        $allowed = array("jpg" => "image/jpeg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+        $filename = $_FILES["image"]["name"];
+        $filetype = $_FILES["image"]["type"];
+        $filesize = $_FILES["image"]["size"];
+
+        // Verify file extension
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if (!array_key_exists($ext, $allowed)) {
+            $image_err = "Invalid file type. Only JPG, JPEG, GIF, and PNG are allowed.";
+        }
+
+        // Verify file size - maximum 5MB
+        $maxsize = 5 * 1024 * 1024;
+        if ($filesize > $maxsize) {
+            $image_err = "File size is too large. Maximum 5MB allowed.";
+        }
+
+        // Verify MIME type
+        if (in_array($filetype, array_values($allowed))) {
+            // Check if the file exists before uploading it.
+            if (file_exists("upload/" . $filename)) {
+                $image_err = $filename . " already exists.";
+            } else{
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], "upload/" . $filename)) {
+                    $image_url = "upload/" . $filename; // Store the file path in the database
+                } else {
+                    $image_err = "Error uploading file.";
+                }
+            }
+        } else {
+            $image_err = "Invalid file type.";
         }
     } else {
-        $image_url_err = "Image URL is required"; //make image required
+        $image_err = "Image upload is required.";
     }
 
     // If there are no errors, insert data into the database
-    if (empty($title_err) && empty($description_err) && empty($image_url_err)) {
-        $sql = "INSERT INTO ads (title, description, image_url, user_id) VALUES (?, ?, ?, ?)"; //added user_id
+    if (empty($title_err) && empty($description_err) && empty($image_err)) {
+        $sql = "INSERT INTO ads (title, description, image_url, user_id) VALUES (?, ?, ?, ?)"; 
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
              // Bind parameters 
@@ -184,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         Advertisement added successfully!
                     </div>
                 <?php endif; ?>
-                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>?>" enctype="multipart/form-data">">
                     <div class="form-group">
                         <label for="title">Title:</label>
                         <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>">
@@ -196,9 +224,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="text-danger"><?php echo $description_err; ?></span>
                     </div>
                     <div class="form-group">
-                        <label for="image_url">Image URL:</label>
-                        <input type="text" class="form-control" id="image_url" name="image_url" value="<?php echo htmlspecialchars($image_url); ?>">
-                        <span class="text-danger"><?php echo $image_url_err; ?></span>
+                        <label for="image">Image:</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/jpeg, image/png, image/gif">
+                        <span class="text-danger"><?php echo $image_err; ?></span>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
