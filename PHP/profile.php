@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['contribution_file'])
     $title = sanitize($_POST['title']);
     $description = sanitize($_POST['description']);
     $upload = upload_file($_FILES['contribution_file']);
-    
     if (isset($upload['error'])) {
         $error = $upload['error'];
     } else {
@@ -58,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['contribution_file'])
         <label>File: <input type="file" name="contribution_file" accept="image/*,application/pdf" required></label><br>
         <button type="submit">Upload Contribution</button>
     </form>
-
     <section class="user-contributions">
         <h2>User Contributions</h2>
         <div class="posts">
