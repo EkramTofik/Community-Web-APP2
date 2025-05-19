@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $stmt = $pdo->prepare('INSERT INTO newsletter (email) VALUES (?)');
         $stmt->execute([$email]);
-        $message = 'Subscribed successfully';
+        $message = 'Subscribed succesfully';
     }
     
     header("Location: homepage.php?message=" . urlencode($message));
