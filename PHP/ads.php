@@ -71,19 +71,21 @@ mysqli_free_result($result);
             <div class="logo">WelcomeHub</div>
             <nav>
                 <ul>
-                    <li><span><img src="../images/home.png" width="18px" height="18px"></span><a href="homepage.html">Home</a></li>
-                    <li> <span><img src="../images/group.png" width="20px" height="20px"></span>  <a href="club.html">Clubs</a></li>
-                    <li> <span><img src="../images/promotion.png" width="20px" height="20px"></span>  <a href="announcement.html">Announcement</a></li>
-                    <li> <span><img src="../images/fabric.png" width="20px" height="20px"></span>  <a href="coursematerial.html" >Materials</a></li>
-                    <li  class="active"> <span><img src="../images/cart.png" width="20px" height="20px"></span>  <a href="ads.html">Ads</a></li>
+                    <li><span><img src="../images/home.png" width="18px" height="18px"></span><a href="homepage.php">Home</a></li>
+                    <li> <span><img src="../images/group.png" width="20px" height="20px"></span>  <a href="club.php">Clubs</a></li>
+                    <li> <span><img src="../images/promotion.png" width="20px" height="20px"></span>  <a href="announcement.php">Announcement</a></li>
+                    <li> <span><img src="../images/fabric.png" width="20px" height="20px"></span>  <a href="coursematerial.php" >Materials</a></li>
+                    <li  class="active"> <span><img src="../images/cart.png" width="20px" height="20px"></span>  <a href="ads.php">Ads</a></li>
                 </ul>
             </nav>
         </div>
         <div class="profile">
             <img src="https://via.placeholder.com/40" alt="User">
             <div>
-                <div class="name">Amanda</div>
-                <a href="profile.html">View profile</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <div class="name"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
+                    <a href="profile.php">View profile</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -122,18 +124,18 @@ mysqli_free_result($result);
                 </div>
 
                 <div class="links">
-                    <a href="homepage.html">Home</a>
-                    <a href="club.html">Clubs</a>
-                    <a href="announcement.html" >Announcement</a>
-                    <a href="coursematerial.html" >Materials</a>
-                    <a href="ads.html" >Ads</a>
+                    <a href="homepage.php">Home</a>
+                    <a href="club.php">Clubs</a>
+                    <a href="announcement.php" >Announcement</a>
+                    <a href="coursematerial.php" >Materials</a>
+                    <a href="ads.php" >Ads</a>
                 </div>
             <p>&copy; 2024 Brand, Inc. - <a href="#">Privacy</a> - <a href="#">Terms</a> - <a href="#">Sitemap</a></p>
 
             </div>
         </footer>
 
-        <?php if ($userRole == 'staff'): ?>
+        <?php if ($userRole == 'admin'): ?>
             <a href="add_ads.php" class="add-icon">+</a>
         <?php endif; ?>
     </div>
