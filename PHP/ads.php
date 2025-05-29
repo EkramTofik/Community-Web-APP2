@@ -1,143 +1,79 @@
 <?php
-// Start session (if not already started)
-session_start();
+require_once 'includes/db_connect.php';
+require_once 'includes/functions.php';
 
-// Include database connection file
-include("connection.php"); // Make sure this file contains your database connection code
+if (!is_logged_in()) {
+    header('Location: login.php');
+    exit;
+}
 
-// Function to get user role
-function getUserRole() {
-    if (isset($_SESSION['role'])) {
-        return $_SESSION['role'];
-    } else {
-        return 'guest'; // Default role if user is not logged in
+// Fetch ads
+$stmt = $pdo->query('SELECT a.*, u.full_name FROM ads a JOIN users u ON a.created_by = u.id ORDER BY a.created_at DESC');
+$ads = $stmt->fetchAll();
+
+// Handle ad submission
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_ad'])) {
+    $title = sanitize($_POST['title']);
+    $description = sanitize($_POST['description']);
+    $category = sanitize($_POST['category']);
+    $contact_info = sanitize($_POST['contact_info']);
+    $created_by = $_SESSION['user_id'];
+
+    // Validate inputs
+    if (empty($title)) {
+        $errors[] = 'Title is required.';
+    }
+    if (empty($description)) {
+        $errors[] = 'Description is required.';
+    }
+    if (empty($category)) {
+        $errors[] = 'Category is required.';
+    }
+    if (empty($contact_info)) {
+        $errors[] = 'Contact information is required.';
+    }
+
+    // Handle image upload
+    $image_path = null;
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
+        $upload = upload_file($_FILES['image'], ['image/jpeg', 'image/png', 'image/gif']);
+        if (isset($upload['error'])) {
+            $errors[] = $upload['error'];
+        } else {
+            $image_path = $upload['path'];
+        }
+    }
+
+    // Insert ad if no errors
+    if (empty($errors)) {
+        $stmt = $pdo->prepare('INSERT INTO ads (title, description, category, contact_info, image, created_by) VALUES (?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$title, $description, $category, $contact_info, $image_path, $created_by]);
+        header('Location: ads.php');
+        exit;
     }
 }
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login_form.php"); // Redirect to login page
-    exit();
+// Handle ad deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ad'])) {
+    $ad_id = (int)$_POST['ad_id'];
+    $user_id = $_SESSION['user_id'];
+
+    // Verify ownership
+    $stmt = $pdo->prepare('SELECT image, created_by FROM ads WHERE id = ?');
+    $stmt->execute([$ad_id]);
+    $ad = $stmt->fetch();
+
+    if ($ad && $ad['created_by'] == $user_id) {
+        // Delete image file if exists
+        if ($ad['image'] && file_exists($ad['image'])) {
+            unlink($ad['image']);
+        }
+        // Delete ad
+        $stmt = $pdo->prepare('DELETE FROM ads WHERE id = ?');
+        $stmt->execute([$ad_id]);
+    }
+    header('Location: ads.php');
+    exit;
 }
-
-// Get user role
-$userRole = getUserRole();
-
-// Fetch ads from the database
-$sql = "SELECT * FROM ads"; 
-$result = mysqli_query($conn, $sql);
-$ads = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-// Free result from memory
-mysqli_free_result($result);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Connect</title>
-    <link rel="stylesheet" href="../../Community-Web-APP2/css/ads.css">
-    <link rel="stylesheet" href="../../Community-Web-APP2/css/sidebar.css">
-    <link rel="stylesheet" href="../../Community-Web-APP2/css/footer.css">
-    <style>
-        /* Style for the plus icon */
-        .add-icon {
-            position: fixed; /* Fix it to the corner */
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff; /* Blue color */
-            color: white;
-            border-radius: 50%; /* Make it round */
-            width: 50px; /* Adjust size as needed */
-            height: 50px;
-            text-align: center;
-            line-height: 50px; /* Vertically center the icon */
-            font-size: 24px; /* Adjust icon size */
-            cursor: pointer; /* Show a pointer cursor on hover */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add some shadow for better visibility */
-            z-index: 1000; /* Ensure it's above other elements */
-        }
-
-        .add-icon:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-    </style>
-</head>
-<body>
-    <div class="sidebar">
-        <div>
-            <div class="logo">WelcomeHub</div>
-            <nav>
-                <ul>
-                    <li><span><img src="../images/home.png" width="18px" height="18px"></span><a href="homepage.php">Home</a></li>
-                    <li> <span><img src="../images/group.png" width="20px" height="20px"></span>  <a href="club.php">Clubs</a></li>
-                    <li> <span><img src="../images/promotion.png" width="20px" height="20px"></span>  <a href="announcement.php">Announcement</a></li>
-                    <li> <span><img src="../images/fabric.png" width="20px" height="20px"></span>  <a href="coursematerial.php" >Materials</a></li>
-                    <li  class="active"> <span><img src="../images/cart.png" width="20px" height="20px"></span>  <a href="ads.php">Ads</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="profile">
-            <img src="https://via.placeholder.com/40" alt="User">
-            <div>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <div class="name"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
-                    <a href="profile.php">View profile</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="content">
-        <div class="container">
-            <section class="job-listings">
-                <h2>Advertisements</h2>
-                <div class="job-cards">
-                    <?php if (count($ads) > 0): ?>
-                        <?php foreach ($ads as $ad): ?>
-                            <div class="job-card">
-                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Ad Image">
-                                <h3><?php echo htmlspecialchars($ad['title']); ?></h3>
-                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
-                                </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No advertisements available yet.</p>
-                    <?php endif; ?>
-                </div>
-            </section>
-
-            <section class="community-section">
-                <h2>Join the community</h2>
-                <p>Connect with fellow students, share experiences, and create unforgettable events. Become a part of our vibrant community today!</p>
-                <button>Join Us Now</button>
-            </section>
-        </div>
-
-        <footer>
-            <div class="container">
-                <div class="newsletter">
-                    <input type="email" placeholder="Subscribe to our newsletter">
-                    <button>Subscribe</button>
-                </div>
-
-                <div class="links">
-                    <a href="homepage.php">Home</a>
-                    <a href="club.php">Clubs</a>
-                    <a href="announcement.php" >Announcement</a>
-                    <a href="coursematerial.php" >Materials</a>
-                    <a href="ads.php" >Ads</a>
-                </div>
-            <p>&copy; 2024 Brand, Inc. - <a href="#">Privacy</a> - <a href="#">Terms</a> - <a href="#">Sitemap</a></p>
-
-            </div>
-        </footer>
-
-        <?php if ($userRole == 'admin'): ?>
-            <a href="add_ads.php" class="add-icon">+</a>
-        <?php endif; ?>
-    </div>
-</body>
-</html>
