@@ -1,0 +1,277 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar nav ul li:hover, .sidebar nav ul li.active {
+    background-color: #eef3ff;
+}
+
+.sidebar .profile {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Content */
+.content {
+    margin-left: 250px;
+    padding: 30px;
+    width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.hero button {
+    padding: 10px 20px;
+    background-color: #6C63FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+/* University Fair */
+.university-fair {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.university-fair img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.university-fair h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+/* Event Cards */
+.event-cards, .job-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.event-card, .job-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.event-card img, .job-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.event-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.event-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-meta button {
+    background: #6C63FF;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.event-meta a {
+    color: #6C63FF;
+    text-decoration: none;
+}
+
+/* Profile */
+.profile-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.posts .post {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Course Materials */
+.material-item {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.discussion .comment {
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #6C63FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+footer .newsletter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+footer input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 250px;
+}
+
+footer .links {
+    margin: 20px 0;
+}
+
+footer .links a {
+    color: #6C63FF;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .event-cards, .job-cards {
+        grid-template-columns: 1fr;
+    }
+}
