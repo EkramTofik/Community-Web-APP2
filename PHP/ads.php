@@ -1,141 +1,166 @@
 <?php
-// Start session (if not already started)
-session_start();
+require_once 'includes/db_connect.php';
+require_once 'includes/functions.php';
 
-// Include database connection file
-include("connection.php"); // Make sure this file contains your database connection code
+if (!is_logged_in()) {
+    header('Location: login.php');
+    exit;
+}
 
-// Function to get user role
-function getUserRole() {
-    if (isset($_SESSION['role'])) {
-        return $_SESSION['role'];
-    } else {
-        return 'guest'; // Default role if user is not logged in
+// Fetch ads
+$stmt = $pdo->query('SELECT a.*, u.full_name FROM ads a JOIN users u ON a.created_by = u.id ORDER BY a.created_at DESC');
+$ads = $stmt->fetchAll();
+
+// Handle ad submission
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_ad'])) {
+    $title = sanitize($_POST['title']);
+    $description = sanitize($_POST['description']);
+    $category = sanitize($_POST['category']);
+    $contact_info = sanitize($_POST['contact_info']);
+    $created_by = $_SESSION['user_id'];
+
+    // Validate inputs
+    if (empty($title)) {
+        $errors[] = 'Title is required.';
+    }
+    if (empty($description)) {
+        $errors[] = 'Description is required.';
+    }
+    if (empty($category)) {
+        $errors[] = 'Category is required.';
+    }
+    if (empty($contact_info)) {
+        $errors[] = 'Contact information is required.';
+    }
+
+    // Handle image upload
+    $image_path = null;
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
+        $upload = upload_file($_FILES['image'], ['image/jpeg', 'image/png', 'image/gif']);
+        if (isset($upload['error'])) {
+            $errors[] = $upload['error'];
+        } else {
+            $image_path = $upload['path'];
+        }
+    }
+
+    // Insert ad if no errors
+    if (empty($errors)) {
+        $stmt = $pdo->prepare('INSERT INTO ads (title, description, category, contact_info, image, created_by) VALUES (?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$title, $description, $category, $contact_info, $image_path, $created_by]);
+        header('Location: ads.php');
+        exit;
     }
 }
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login_form.php"); // Redirect to login page
-    exit();
+// Handle ad deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ad'])) {
+    $ad_id = (int)$_POST['ad_id'];
+    $user_id = $_SESSION['user_id'];
+
+    // Verify ownership
+    $stmt = $pdo->prepare('SELECT image, created_by FROM ads WHERE id = ?');
+    $stmt->execute([$ad_id]);
+    $ad = $stmt->fetch();
+
+    if ($ad && $ad['created_by'] == $user_id) {
+        // Delete image file if exists
+        if ($ad['image'] && file_exists($ad['image'])) {
+            unlink($ad['image']);
+        }
+        // Delete ad
+        $stmt = $pdo->prepare('DELETE FROM ads WHERE id = ?');
+        $stmt->execute([$ad_id]);
+    }
+    header('Location: ads.php');
+    exit;
 }
-
-// Get user role
-$userRole = getUserRole();
-
-// Fetch ads from the database
-$sql = "SELECT * FROM ads"; 
-$result = mysqli_query($conn, $sql);
-$ads = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-// Free result from memory
-mysqli_free_result($result);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Connect</title>
-    <link rel="stylesheet" href="../../Community-Web-APP2/css/ads.css">
-    <link rel="stylesheet" href="../../Community-Web-APP2/css/sidebar.css">
-    <link rel="stylesheet" href="../../Community-Web-APP2/css/footer.css">
-    <style>
-        /* Style for the plus icon */
-        .add-icon {
-            position: fixed; /* Fix it to the corner */
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff; /* Blue color */
-            color: white;
-            border-radius: 50%; /* Make it round */
-            width: 50px; /* Adjust size as needed */
-            height: 50px;
-            text-align: center;
-            line-height: 50px; /* Vertically center the icon */
-            font-size: 24px; /* Adjust icon size */
-            cursor: pointer; /* Show a pointer cursor on hover */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add some shadow for better visibility */
-            z-index: 1000; /* Ensure it's above other elements */
-        }
-
-        .add-icon:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-    </style>
-</head>
-<body>
-    <div class="sidebar">
-        <div>
-            <div class="logo">WelcomeHub</div>
-            <nav>
-                <ul>
-                    <li><span><img src="../images/home.png" width="18px" height="18px"></span><a href="homepage.html">Home</a></li>
-                    <li> <span><img src="../images/group.png" width="20px" height="20px"></span>  <a href="club.html">Clubs</a></li>
-                    <li> <span><img src="../images/promotion.png" width="20px" height="20px"></span>  <a href="announcement.html">Announcement</a></li>
-                    <li> <span><img src="../images/fabric.png" width="20px" height="20px"></span>  <a href="coursematerial.html" >Materials</a></li>
-                    <li  class="active"> <span><img src="../images/cart.png" width="20px" height="20px"></span>  <a href="ads.html">Ads</a></li>
+<?php include 'includes/header.php'; ?>
+<div class="container">
+    <section class="ads">
+        <h2>Advertisements</h2>
+        <button class="create-ad-button">Create Ad</button>
+        
+        <!-- Ad Form (Hidden by Default) -->
+        <div class="add-ad" style="display: none;">
+            <h3>Create a New Ad</h3>
+            <?php if (!empty($errors)): ?>
+                <ul class="errors">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
                 </ul>
-            </nav>
+            <?php endif; ?>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="add_ad" value="1">
+                <label>
+                    Title:
+                    <input type="text" name="title" value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : ''; ?>" required>
+                </label>
+                <label>
+                    Description:
+                    <textarea name="description" required><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+                </label>
+                <label>
+                    Category:
+                    <select name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="For Sale" <?php echo isset($_POST['category']) && $_POST['category'] === 'For Sale' ? 'selected' : ''; ?>>For Sale</option>
+                        <option value="Services" <?php echo isset($_POST['category']) && $_POST['category'] === 'Services' ? 'selected' : ''; ?>>Services</option>
+                        <option value="Housing" <?php echo isset($_POST['category']) && $_POST['category'] === 'Housing' ? 'selected' : ''; ?>>Housing</option>
+                        <option value="Jobs" <?php echo isset($_POST['category']) && $_POST['category'] === 'Jobs' ? 'selected' : ''; ?>>Jobs</option>
+                        <option value="Events" <?php echo isset($_POST['category']) && $_POST['category'] === 'Events' ? 'selected' : ''; ?>>Events</option>
+                        <option value="Other" <?php echo isset($_POST['category']) && $_POST['category'] === 'Other' ? 'selected' : ''; ?>>Other</option>
+                    </select>
+                </label>
+                <label>
+                    Contact Information (e.g., email, phone):
+                    <input type="text" name="contact_info" value="<?php echo isset($_POST['contact_info']) ? htmlspecialchars($_POST['contact_info']) : ''; ?>" required>
+                </label>
+                <label>
+                    Image (optional):
+                    <input type="file" name="image" accept="image/jpeg,image/png,image/gif">
+                </label>
+                <button type="submit">Submit Ad</button>
+            </form>
         </div>
-        <div class="profile">
-            <img src="https://via.placeholder.com/40" alt="User">
-            <div>
-                <div class="name">Amanda</div>
-                <a href="profile.html">View profile</a>
-            </div>
+        
+        <!-- Ad List -->
+        <div class="ad-cards">
+            <?php if ($ads): ?>
+                <?php foreach ($ads as $ad): ?>
+                    <div class="ad-card">
+                        <img src="<?php echo $ad['image'] ?: 'images/default_ad.jpg'; ?>" alt="<?php echo htmlspecialchars($ad['title']); ?>">
+                        <h3><?php echo htmlspecialchars($ad['title']); ?></h3>
+                        <p><strong>Category:</strong> <?php echo htmlspecialchars($ad['category']); ?></p>
+                        <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                        <p><strong>Contact:</strong> <?php echo htmlspecialchars($ad['contact_info']); ?></p>
+                        <p><strong>Posted by:</strong> <?php echo htmlspecialchars($ad['full_name']); ?></p>
+                        <?php if ($ad['created_by'] == $_SESSION['user_id']): ?>
+                            <form method="POST" style="display: inline;">
+                                <input type="hidden" name="ad_id" value="<?php echo $ad['id']; ?>">
+                                <button type="submit" name="delete_ad" class="delete-ad-button" onclick="return confirm('Are you sure you want to delete this ad?');">Delete</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No ads yet. Be the first to create one!</p>
+            <?php endif; ?>
         </div>
-    </div>
-
-    <div class="content">
-        <div class="container">
-            <section class="job-listings">
-                <h2>Advertisements</h2>
-                <div class="job-cards">
-                    <?php if (count($ads) > 0): ?>
-                        <?php foreach ($ads as $ad): ?>
-                            <div class="job-card">
-                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Ad Image">
-                                <h3><?php echo htmlspecialchars($ad['title']); ?></h3>
-                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
-                                </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No advertisements available yet.</p>
-                    <?php endif; ?>
-                </div>
-            </section>
-
-            <section class="community-section">
-                <h2>Join the community</h2>
-                <p>Connect with fellow students, share experiences, and create unforgettable events. Become a part of our vibrant community today!</p>
-                <button>Join Us Now</button>
-            </section>
-        </div>
-
-        <footer>
-            <div class="container">
-                <div class="newsletter">
-                    <input type="email" placeholder="Subscribe to our newsletter">
-                    <button>Subscribe</button>
-                </div>
-
-                <div class="links">
-                    <a href="homepage.html">Home</a>
-                    <a href="club.html">Clubs</a>
-                    <a href="announcement.html" >Announcement</a>
-                    <a href="coursematerial.html" >Materials</a>
-                    <a href="ads.html" >Ads</a>
-                </div>
-            <p>&copy; 2024 Brand, Inc. - <a href="#">Privacy</a> - <a href="#">Terms</a> - <a href="#">Sitemap</a></p>
-
-            </div>
-        </footer>
-
-        <?php if ($userRole == 'staff'): ?>
-            <a href="add_ads.php" class="add-icon">+</a>
-        <?php endif; ?>
-    </div>
-</body>
-</html>
+    </section>
+</div>
+<?php include 'includes/footer.php'; ?>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const createButton = document.querySelector('.create-ad-button');
+    const formContainer = document.querySelector('.add-ad');
+    
+    createButton.addEventListener('click', () => {
+        formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+    });
+});
+</script>
